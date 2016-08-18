@@ -21,6 +21,9 @@ for components that just seem to want to do too much. It can also be confusing,
 I think, because it's this weird boolean escape hatch from the rest of the
 update portion of the lifecycle.
 
+## Suggested metaphors and narratives
+This is a pretty hard one to really frame into a coherent narrative. Maybe something like a movie set would work? Props & state are the script, and actors are elements. Since we have a vision (state & props) for the movie, the scene should always play out the same way. We can use action/cut metaphors for the component updating to clarify the right time to do these things. For the `shouldComponentUpdate()` metaphor, maybe we could use something like the director changing their mind mid-scene, and the scene/actors should only change their lines (= updating the component) when the script or whatever (state & props) actually changes?
+
 ## Resources
 
 - [React: Component Specs and Lifecycle](https://github.com/learn-co-curriculum/react-rendering)

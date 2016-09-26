@@ -15,7 +15,7 @@
 
 The Circle of Life. Who knew learning about the React framework could bring us to Lion King? As with every creature in
 the in the animal kingdom, React components get created and destroyed only once. The majority of their lifetime is spent
-in the updating - that is, reacting to user interactions.
+on updating - that is, reacting to user interactions.
 
 We are kindly provided with 4 lifecycle methods to help us handle updates:`componentWillReceiveProps`,
 `shouldComponentUpdate`, `componentWillUpdate` and `componentDidUpdate`.
@@ -46,8 +46,8 @@ coming in (audience increasing) or leaving (audience decreasing). In a lifecycle
 ```javascript
 componentWillReceiveProps(nextProps){
   this.setState({
-    audenceIncreasing: nextProps.numAudenceMembers > this.props.numAudenceMembers,
-    audenceDecreasing: nextProps.numAudenceMembers < this.props.numAudenceMembers
+    audienceIncreasing: nextProps.numAudienceMembers > this.props.numAudienceMembers,
+    audienceDecreasing: nextProps.numAudienceMembers < this.props.numAudienceMembers
   })
 }
 ```
@@ -73,8 +73,8 @@ reading [here](http://adripofjavascript.com/blog/drips/object-equality-in-javasc
 
 Coming back to our theater metaphor, imagine a play is being carried out over and over. The actors have a script they
 read from and generally don't deviate from it. However, suppose the director decides that a new version of the script
-is in order - maybe he felt the audience didn't like a scene and left or maybe he just fancied an experiement, either way,
-the actors have a new script and have to carry out the play in a sligtly different way. As a lifecycle method, this could
+is in order - maybe he felt the audience didn't like a scene, or maybe he just fancied an experiment, either way,
+the actors have a new script and have to carry out the play in a slightly different way. As a lifecycle method, this could
 be denoted like this:
 
 ```javascript
@@ -114,7 +114,7 @@ to both the current props and previous props. A common use case for this would b
   }
 ```
 
-In our theatre world, this could be a critic looking back at the play that was just performed and giving it a different
+In our theater world, this could be a critic looking back at the play that was just performed and giving it a different
 review. For example, perhaps the new version of the play contains more adult language and has to have a more adult rating.
 
 ## Summary

@@ -14,7 +14,7 @@
 </p>
 
 The Circle of Life. Who knew learning about the React framework could bring us to Lion King? As with every creature in
-the in the animal kingdom, React components get created and destroyed only once. The majority of their lifetime is spent
+the animal kingdom, React components get created and destroyed only once. The majority of their lifetime is spent
 on updating - that is, reacting to user interactions.
 
 We are kindly provided with 4 lifecycle methods to help us handle updates:`componentWillReceiveProps`,
@@ -141,3 +141,5 @@ Not called on initial render, but always called whenever a subsequent re-render 
 ## Resources
 
 - [React: Component Specs and Lifecycle](https://github.com/learn-co-curriculum/react-rendering)
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/react-rendering'>Rendering</a> on Learn.co and start learning to code for free.</p>

@@ -103,7 +103,7 @@ at this stage, it is purely taking the script the director is happy with and the
 carrying out the play.
 
 ### `componentDidUpdate(prevProps, prevState)`
-This method used very often, but it is a kind of a looking back to the opdate that's just occurred. We will have access
+This method used very often, but it is a kind of a looking back to the update what's just occurred. We will have access
 to both the current props and previous props. A common use case for this would be to update a 3rd party library.
 
 ```javascript
@@ -141,3 +141,5 @@ Not called on initial render, but always called whenever a subsequent re-render 
 ## Resources
 
 - [React: Component Specs and Lifecycle](https://github.com/learn-co-curriculum/react-rendering)
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/react-rendering'>Rendering</a> on Learn.co and start learning to code for free.</p>

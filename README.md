@@ -13,7 +13,7 @@
   <img src="http://www.awesomelyluvvie.com/wp-content/uploads/2014/04/lion-king-circle-of-life.gif" />
 </p>
 
-The Circle of Life. Who knew learning about the React framework could bring us to Lion King? As with every creature in the in the animal kingdom, React components get created and destroyed only once. The majority of their lifetime is spent on updating - that is, reacting to user interactions.
+The Circle of Life. Who knew learning about the React framework could bring us to Lion King? As with every creature in the animal kingdom, React components get created and destroyed only once. The majority of their lifetime is spent on updating - that is, reacting to user interactions.
 
 We are kindly provided with 4 lifecycle methods to help us handle updates:`componentWillReceiveProps`, `shouldComponentUpdate`, `componentWillUpdate` and `componentDidUpdate`.
 
@@ -65,7 +65,7 @@ shouldComponentUpdate(nextProps, nextState) {
 ```
 
 ### `componentWillUpdate(nextProps, nextState)`
-**componentWillUpdate** is called immediately after the check in **shouldComponentUpdate** has passed. No state changes are allowed in this method and it should be used solely for preparing for the upcoming update, not trigger one. One of the more common uses of **componentWillUpdate** is to to call an action, set a variable or start an animation (not in the state) based on state changes.
+**componentWillUpdate** is called immediately after the check in **shouldComponentUpdate** has passed. No state changes are allowed in this method and it should be used solely for preparing for the upcoming update, not trigger one. One of the more common uses of **componentWillUpdate** is to call an action, set a variable or start an animation (not in the state) based on state changes.
 
 In the theater, this method would be used to set up the stage following a script change: maybe you need a different background for a scene, new costumes, more upbeat music etc. All of this would be done just before the `render()` method, or, in our case, just before the new script is read out.
 
@@ -88,7 +88,7 @@ This method used very often, but it is a kind of a looking back to the update th
 In our theater world, this could be a critic looking back at the play that was just performed and giving it a different review. For example, perhaps the new version of the play contains more adult language and has to have a more adult rating.
 
 ## Summary
-These are all the tools we get to help us decide how to react to changes in our component. The `render()` method is the only one we *must* have - everything else is optional. Use these methods sparingly. In the ideal world, we want to have as little of them methods as possible.
+These are all the tools we get to help us decide how to react to changes in our component. The `render()` method is the only one we *must* have - everything else is optional. Use these methods sparingly. In the ideal world, we want to have as little of these methods as possible.
 
 ### Updating lifecycle methods
 Not called on initial render, but always called whenever a subsequent re-render is triggered:
@@ -109,3 +109,5 @@ Not called on initial render, but always called whenever a subsequent re-render 
 ## Resources
 
 - [React: Component Specs and Lifecycle](https://github.com/learn-co-curriculum/react-rendering)
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/react-rendering'>Rendering</a> on Learn.co and start learning to code for free.</p>

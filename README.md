@@ -35,7 +35,7 @@ This method is called when the component is receiving new props from it's parent
 You could use this method for recording a trend between current and previous props. For example, imagine an open air theater with people coming in and out. You would be interested in the trend of people's movement - are more people coming in (audience increasing) or leaving (audience decreasing). In a lifecycle method, you might denote it as follows:
 
 ```javascript
-componentWillReceiveProps(nextProps){
+componentWillReceiveProps(nextProps) {
   this.setState({
     audienceIncreasing: nextProps.numAudienceMembers > this.props.numAudienceMembers,
     audienceDecreasing: nextProps.numAudienceMembers < this.props.numAudienceMembers

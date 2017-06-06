@@ -109,5 +109,6 @@ Not called on initial render, but always called whenever a subsequent re-render 
 ## Resources
 
 - [React: Component Specs and Lifecycle](https://github.com/learn-co-curriculum/react-rendering)
+- [Idempotent Operations](https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation)
 
 <p class='util--hide'>View <a href='https://learn.co/lessons/react-rendering'>Rendering</a> on Learn.co and start learning to code for free.</p>

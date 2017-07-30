@@ -75,7 +75,7 @@ The `render()` method is the most familiar one to all React developers. In fact,
 For our theater, this is where the play is being carried out: no changes are being made to the script or the scenery at this stage, it is purely taking the script the director is happy with and the props that have been laid out, and carrying out the play.
 
 ### `componentDidUpdate(prevProps, prevState)`
-This method isn't used very often, but it is a kind of a looking back to the update that's just occurred. We will have access to both the current props and previous props. A common use case for this would be to update a 3rd party library.
+This method isn't used very often, but it is a kind of a look back to the update that's just occurred. We will have access to both the current props and previous props. A common use case for this would be to update a 3rd party library.
 
 ```javascript
   componentDidUpdate(prevProps, prevState) {

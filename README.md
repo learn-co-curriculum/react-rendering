@@ -13,38 +13,73 @@
   <img src="http://www.awesomelyluvvie.com/wp-content/uploads/2014/04/lion-king-circle-of-life.gif" />
 </p>
 
-The Circle of Life. Who knew learning about the React framework could bring us to Lion King? As with every creature in the animal kingdom, React components get created and destroyed only once. The majority of their lifetime is spent on updating - that is, reacting to user interactions.
+The Circle of Life. Who knew learning about the React framework could bring us
+to Lion King? As with every creature in the animal kingdom, React components get
+created and destroyed only once. The majority of their lifetime is spent on
+updating - that is, reacting to user interactions.
 
-We are kindly provided with 4 lifecycle methods to help us handle updates:`componentWillReceiveProps`, `shouldComponentUpdate`, `componentWillUpdate` and `componentDidUpdate`.
+We are kindly provided with 4 lifecycle methods to help us handle
+updates:`static getDerivedStateFromProps()`, `shouldComponentUpdate`,
+`getSnapshotBeforeUpdate` and `componentDidUpdate`.
 
-These methods always get called in the same order and the `render()` method which renders the React component into the DOM will be called just before `componentDidUpdate`, so the actual order of lifecycle methods being called is:
+These methods always get called in the same order and the `render()` method
+which renders the React component into the DOM will be called just before
+`componentDidUpdate`, so the actual order of lifecycle methods being called is:
 
-1. `componentWillReceiveProps(nextProps)`
+1. `static getDerivedStateFromProps(props, state)`
 
 2. `shouldComponentUpdate(nextProps, nextState)`
 
-3. `componentWillUpdate(nextProps, nextState)`
+4. `render()` (can access props and state via `this.props` and `this.state` -
+previous props are no longer available)
 
-4. `render()` (can access props and state via `this.props` and `this.state` - previous props are no longer available)
+5. `getSnapshotBeforeUpdate(prevProps, prevState)`
 
-5. `componentDidUpdate(prevProps, prevState)` (can still access current props and state via `this.props` and `this.state` and this is the last time previous props and state will be available as they are passed into the function).
+6. `componentDidUpdate(prevProps, prevState, snapshot)` (can still access
+current props and state via `this.props` and `this.state` and this is the last
+time previous props and state will be available).
 
-### `componentWillReceiveProps(nextProps)`
-This method is called when the component is receiving new props from it's parent. A word of caution: a common mistake here is to assume that the props have changed. Just because the method is called doesn't necessarily mean that the props have changed.
+#### `static getDerivedStateFromProps(props, state)`
 
-You could use this method for recording a trend between current and previous props. For example, imagine an open air theater with people coming in and out. You would be interested in the trend of people's movement - are more people coming in (audience increasing) or leaving (audience decreasing). In a lifecycle method, you might denote it as follows:
+This method is called when either the component is receiving new props from it's
+parent or a the component state has changed, as both cause the component to
+update. A word of caution: a common mistake here is to assume that the props
+have changed. Just because the method is called doesn't necessarily mean that
+the props have changed.
 
-```javascript
-componentWillReceiveProps(nextProps) {
-  this.setState({
-    audienceIncreasing: nextProps.numAudienceMembers > this.props.numAudienceMembers,
-    audienceDecreasing: nextProps.numAudienceMembers < this.props.numAudienceMembers
-  })
-}
-```
+This method is for deriving state, meaning you want to modify a components state
+based on something in the new props. React's [official advice][derived] is that
+you probably don't need this, and in many cases where it seems necessary, there
+is often a better solution.
 
-### `shouldComponentUpdate(nextProps, nextState)`
-`shouldComponentUpdate` is the odd one out in the lifecycle methods as it doesn't operate on the state, but has a `Boolean` return value determining whether the component should update or not. It's useful to prevent un-necessary re-renders and making your website faster (this is useful especially when your application gets really big!).
+#### `shouldComponentUpdate(nextProps, nextState)`
+
+The `shouldComponentUpdate` method is the odd one out in the lifecycle methods
+as it doesn't operate on the state, but has a `Boolean` return value determining
+whether the component should update or not. It's sole use is for custom
+performance optimization.
+
+Say for instance, if you only wany a component to update when a value changes
+past a set threshold, you could use this method to prevent component updating
+_until_ the props meet the requirement.
+
+For general optimization of updating, React recommends an alternative - use
+`React.PureComponent` insttead of `React.Component`. From the [React reference
+materials][pure]:
+
+> "If your React component’s render() function renders the same result given the
+same props and state, you can use React.PureComponent for a performance boost in
+some cases."
+
+The `PureComponent` does not have access to `shouldComponentUpdate`, because it
+instead runs its own version. The `PureComponent` checks to see if there are any
+_shallow_ changes to props and state and will only update if it  registers a
+difference between the current and next states.
+
+When you applications start to get really big, using `PureComponent` is useful
+for stopping un-necessary re-renders and making your website faster. When you
+really want to customize the logic for when to re-render, use
+`shouldComponentUpdate`.
 
 ```javascript
 shouldComponentUpdate(nextProps, nextState) {
@@ -52,30 +87,35 @@ shouldComponentUpdate(nextProps, nextState) {
 }
 ```
 
-For example, the above code means that the React component gets re-rendered when `myImportantValue` has changed. A word of caution though: you might think it'd be a good idea to use the `shouldComponentUpdate` function to only re-render the component if *any* of the props have changed and avoid *all* redundant re-renders, e.g. if `this.props !== nextProps`. However, because `props` and `nextProps` are both JavaScript objects, this comparison will always return `true`, that is `{} === {}` is never `true` in JavaScript (object equality is one of the many, many JavaScript quirks out there...
-  
-The reasons behind it are a bit too advanced to explain at this stage, it's enough just to know about it. Further reading [here](http://adripofjavascript.com/blog/drips/object-equality-in-javascript.html).
+#### `render()`
 
-Coming back to our theater metaphor, imagine a play is being carried out over and over. The actors have a script they read from and generally don't deviate from it. However, suppose the director decides that a new version of the script is in order - maybe he felt the audience didn't like a scene, or maybe he just fancied an experiment, either way, the actors have a new script and have to carry out the play in a slightly different way. As a lifecycle method, this could be denoted like this:
+The `render()` method is the most familiar one to all React developers. In fact,
+in everyday development, we often end up writing React components that only use
+the `render()` method! At this stage, the next props and state have become
+available from `this.props` and `this.state` and the component gets rendered
+into the DOM.
 
-```javascript
-shouldComponentUpdate(nextProps, nextState) {
-  return (this.props.scriptVersion !== nextProps.scriptVersion);
-}
-```
+In a theater, this is when a specific scene in a play is being carried out: no
+changes are being made to the script or the scenery at this stage, it is purely
+taking the script the director is happy with and the props that have been laid
+out, and carrying out the play.
 
-### `componentWillUpdate(nextProps, nextState)`
-**componentWillUpdate** is called immediately after the check in **shouldComponentUpdate** has passed. No state changes are allowed in this method and it should be used solely for preparing for the upcoming update, not trigger one. One of the more common uses of **componentWillUpdate** is to call an action, set a variable or start an animation (not in the state) based on state changes.
+#### `getSnapshotBeforeUpdate(prevProps, prevState)`
 
-In the theater, this method would be used to set up the stage following a script change: maybe you need a different background for a scene, new costumes, more upbeat music etc. All of this would be done just before the `render()` method, or, in our case, just before the new script is read out.
+Right after render, but just before React commits content to the DOM in an
+update, the `getSnapshotBeforeUpdate` method is fired. This method is currently
+only used to capture information that may be changed after an update. For
+instance, mouse position and scroll position might be changing rapidly and will
+change by the time the next lifecycle method is invoked. This method returns
+either `null` or a value that will be passed into the next method,
+`componentDidUpdate`.
 
-### `render()`
-The `render()` method is the most familiar one to all React developers. In fact, in everyday development, we often end up writing React components that only use the `render()` method! At this stage, the next props and state have become available from `this.props` and `this.state` and the component gets rendered into the DOM.
+#### `componentDidUpdate(prevProps, prevState, snapshot)`
 
-For our theater, this is where the play is being carried out: no changes are being made to the script or the scenery at this stage, it is purely taking the script the director is happy with and the props that have been laid out, and carrying out the play.
-
-### `componentDidUpdate(prevProps, prevState)`
-This method isn't used very often, but it is kind of a look back to the update that just occurred. We will have access to both the current props and previous props. A common use case for this would be to update a 3rd party library.
+This method isn't used very often, but it is kind of a look back to the update
+that just occurred. We will have access to both the current props and previous
+props, as well as any snapshot info from `getSnapshotBeforeUpdate`. A common use
+case for this would be to update a 3rd party library.
 
 ```javascript
   componentDidUpdate(prevProps, prevState) {
@@ -85,21 +125,28 @@ This method isn't used very often, but it is kind of a look back to the update t
   }
 ```
 
-In our theater world, this could be a critic looking back at the play that was just performed and giving it a different review. For example, perhaps the new version of the play contains more adult language and has to have a more adult rating.
+This method can also be used to interact with the DOM, say be adjusting scroll
+position.
 
 ## Summary
-These are all the tools we get to help us decide how to react to changes in our component. The `render()` method is the only one we *must* have - everything else is optional. Use these methods sparingly. In the ideal world, we want to have as little of these methods as possible.
+
+These are all the tools we get to help us decide how to react to changes in our
+component. The `render()` method is the only one we *must* have - everything
+else is optional. Use these methods sparingly. In the ideal world, we want to
+have as little of these methods as possible.
 
 ### Updating lifecycle methods
+
 Not called on initial render, but always called whenever a subsequent re-render is triggered:
 
-|           Method          | nextProps | nextState | Can call `this.setState` |                       Called when?                      |                                     Used for                                     |
+| Method            | current props and state | prevProps | prevState | nextProps |  nextState | Can call `this.setState` | Called when?               | Used for                                                                                    |
 |:-------------------------:|:---------:|:---------:|:----------------------:|:-------------------------------------------------------:|:--------------------------------------------------------------------------------:|
-| `componentWillReceiveProps` |    yes    |     no    |           yes          |  many times, whenever component is going to receive new props  |                     applying state changes based on new props                    |
-|   `shouldComponentUpdate`   |    yes    |    yes    |           no           |    many times, whenever a re-render has been triggered    |    deciding based on new & old props & state whether a re-render should occur    |
-|    `componentWillUpdate`    |    yes    |    yes    |           no           | many times, when new state and props are being received | prepare for the update, dispatch any actions or animations based on state change |
-|     `componentDidUpdate`    |    yes*   |    yes*   |           yes          |    many times, just after the re-render has finished    | any DOM updates following a render (mostly interacting with 3rd party libraries) |
+| `static getDerivedStateFromProps()` |    yes    |     no    |     no    |     no    |     no    |     yes     |     before every render  |   Not used often |
+|   `shouldComponentUpdate`   |    yes    |    no    |    no    |    yes    |    yes   |    yes    | before every re-render (not initially) | can be used to stop unnecessary re-renders for performance optimization |
+|     `getSnapshotBeforeUpdate`    |    yes   |    yes   |    yes   |    no   |    no   |    yes   | just before React updates and commits new content to the DOM | used rarely; can capture data that may be changing rapidly |
+|     `componentDidUpdate`    |    yes   |    yes    |    yes    |    no   |    no    |    yes    | just after a re-render has finished | any DOM updates following a render (mostly interacting with 3rd party libraries) |
 
+Current props and state are always
 \* `componentDidUpdate` will actually receive `prevProps` and `prevState` as arguments, as the newly applied state and props can be accessed through `this.props` and `this.state`.
 
 <p align="center">
@@ -112,3 +159,6 @@ Not called on initial render, but always called whenever a subsequent re-render 
 - [Idempotent Operations](https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation)
 
 <p class='util--hide'>View <a href='https://learn.co/lessons/react-rendering'>Rendering</a> on Learn.co and start learning to code for free.</p>
+
+[derived]: https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
+[pure]: https://reactjs.org/docs/react-api.html#reactpurecomponent
